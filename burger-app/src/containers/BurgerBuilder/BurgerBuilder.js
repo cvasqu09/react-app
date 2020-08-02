@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import Burger from "../../components/Burger/Burger";
+import BuildControls from "../../components/Burger/BuildControls";
 
 class BurgerBuilder extends Component {
+  state = {
+    ingredients: {
+      salad: 0,
+      bacon: 0,
+      cheese: 0,
+      meat: 0
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
-        <div>Burger</div>
-        <div>Build Controls</div>
+        <Burger ingredients={this.state.ingredients}/>
+        <BuildControls/>
       </React.Fragment>
     );
   }

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-const BurgerIngredient = (props) => {
-  let ingredient = null;
+class BurgerIngredient extends Component {
+  render() {
+    let ingredient = null;
 
-  const BreadBottom = styled.div`
+    const BreadBottom = styled.div`
     height: 13%;
     width: 80%;
     background: linear-gradient(#F08E4A, #e27b36);
@@ -12,7 +14,7 @@ const BurgerIngredient = (props) => {
     box-shadow: inset -15px 0 #c15711;
     margin: 2% auto;`;
 
-  const BreadTop = styled.div`
+    const BreadTop = styled.div`
     height: 20%;
     width: 80%;
     background: linear-gradient(#bc581e, #e27b36);
@@ -21,7 +23,7 @@ const BurgerIngredient = (props) => {
     margin: 2% auto;
     position: relative;`;
 
-  const Seeds1 = styled.div`
+    const Seeds1 = styled.div`
     width: 10%;
     height: 15%;
     position: absolute;
@@ -58,7 +60,7 @@ const BurgerIngredient = (props) => {
       box-shadow: inset -1px -3px #c9c9c9;
     }`;
 
-  const Seeds2 = styled.div`
+    const Seeds2 = styled.div`
     width: 10%;
     height: 15%;
     position: absolute;
@@ -82,62 +84,67 @@ const BurgerIngredient = (props) => {
       box-shadow: inset 1px 3px #c9c9c9;
     }`;
 
-  const Meat = styled.div`    
+    const Meat = styled.div`    
     width: 80%;
     height: 8%;
     background: linear-gradient(#7f3608, #702e05);
     margin: 2% auto;
     border-radius: 15px;`;
 
-  const Cheese = styled.div`    
+    const Cheese = styled.div`    
     width: 90%;
     height: 4.5%;
     margin: 2% auto;
     background: linear-gradient(#f4d004, #d6bb22);
     border-radius: 20px;`;
 
-  const Salad = styled.div`
+    const Salad = styled.div`
     width: 85%;
     height: 7%;
     margin: 2% auto;
     background: linear-gradient(#228c1d, #91ce50);
     border-radius: 20px;`;
 
-  const Bacon = styled.div`    
+    const Bacon = styled.div`    
     width: 80%;
     height: 3%;
     background: linear-gradient(#bf3813, #c45e38);
     margin: 2% auto;`;
 
-  switch (props.type) {
-    case('bread-bottom'):
-      ingredient = <BreadBottom/>;
-      break;
-    case('bread-top'):
-      ingredient = (<BreadTop>
-        <Seeds1/>
-        <Seeds2/>
-      </BreadTop>);
-      break;
-    case('meat'):
-      ingredient = <Meat/>;
-      break;
-    case('salad'):
-      ingredient = <Salad/>;
-      break;
-    case('cheese'):
-      ingredient = <Cheese/>;
-      break;    
-    case('bacon'):
-      ingredient = <Bacon/>;
-      break;
+    switch (this.props.type) {
+      case('bread-bottom'):
+        ingredient = <BreadBottom/>;
+        break;
+      case('bread-top'):
+        ingredient = (<BreadTop>
+          <Seeds1/>
+          <Seeds2/>
+        </BreadTop>);
+        break;
+      case('meat'):
+        ingredient = <Meat/>;
+        break;
+      case('salad'):
+        ingredient = <Salad/>;
+        break;
+      case('cheese'):
+        ingredient = <Cheese/>;
+        break;
+      case('bacon'):
+        ingredient = <Bacon/>;
+        break;
+      default:
+        ingredient = null;
+    }
+
+    return (
+      ingredient
+    );
   }
+}
 
-  return (
-    <div>
-
-    </div>
-  );
+BurgerIngredient.propTypes = {
+  type: PropTypes.string.isRequired
 };
 
 export default BurgerIngredient;

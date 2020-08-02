@@ -1,16 +1,45 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 
-class MyComponent extends Component {
+class Burger extends Component {
   render() {
+    const BurgerDiv = styled.div`
+    width: 100%;
+    margin: auto;
+    height: 250px;
+    overflow: scroll;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    @media (min-width: 1000px) and (min-height: 700px) {
+      width: 450px;
+      height: 400px;
+    }`;
+
+    let transformedIngredients = Object.keys(this.props.ingredients)
+      .map(ingredientKey => {
+        return [...Array(this.props.ingredients[ingredientKey])].map((_, index) => {
+          return <BurgerIngredient key={ingredientKey + index} type={ingredientKey}/>
+        })
+      }).reduce((arr, currVal) => {
+        return arr.concat(currVal)
+      }, []);
+
+    if (transformedIngredients.length === 0) {
+      transformedIngredients = <p>Please start adding ingredients</p>
+    }
+
     return (
-      <div>
-        
-      </div>
+      <BurgerDiv>
+        <BurgerIngredient type="bread-top"/>
+        {transformedIngredients}
+        <BurgerIngredient type="bread-bottom"/>
+      </BurgerDiv>
     );
   }
 }
 
-MyComponent.propTypes = {};
+Burger.propTypes = {};
 
-export default MyComponent;
+export default Burger;
