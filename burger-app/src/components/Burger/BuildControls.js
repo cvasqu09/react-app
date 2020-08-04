@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import BuildControl from "../BuildControl";
 
@@ -10,8 +9,7 @@ const controls = [
   {label: 'Meat', type: 'meat'},
 ];
 
-const BuildControls = props => {
-  const BuildControlsDiv = styled.div`
+const BuildControlsDiv = styled.div`
     width: 100%;
     background-color: #CF8F2E;
     display: flex;
@@ -22,9 +20,79 @@ const BuildControls = props => {
     padding: 10px 0;
   `;
 
+const ClearIngredientsButton = styled.button`
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #966909;
+    color: #966909;
+    font-family: inherit;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    box-shadow: 2px 2px 2px #966909;
+`;
+
+const CheckoutButton = styled.button`
+    background-color: #DAD735;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #966909;
+    color: #966909;
+    font-family: inherit;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    box-shadow: 2px 2px 2px #966909;
+    
+    &:hover, &:active {
+      background-color: #A0DB41;
+      border: 1px solid #966909;
+      color: #966909;
+    }
+    
+    &:disabled {
+      background-color: #C7C6C6;
+      cursor: not-allowed;
+      border: 1px solid #ccc;
+      color: #888888;
+    }
+    
+    &:not(:disabled) {
+      animation: enable 0.3s linear;
+    }
+    
+    @keyframes enable {
+      0% {
+          transform: scale(1);
+      }
+      60% {
+          transform: scale(1.1);
+      }
+      100% {
+          transform: scale(1);
+      }
+    }
+`;
+
+const style = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  minWidth: '20rem'
+};
+
+const BuildControls = props => {
   return (
     <BuildControlsDiv>
-      {controls.map(control => (<BuildControl key={control.label} label={control.label}/>))}
+      {controls.map(control => (
+        <BuildControl
+          disabled={props.disabledControls[control.type]}
+          key={control.label}
+          label={control.label}
+          added={() => props.ingredientAdded(control.type)}
+          removed={() => props.removeIngredient(control.type)}/>
+      ))}
+      <div style={style}>
+        <CheckoutButton onClick={props.purchasing} disabled={!props.canPurchase}>ORDER NOW</CheckoutButton>
+        <ClearIngredientsButton onClick={props.clearIngredients} disabled={!props.canPurchase}>CLEAR</ClearIngredientsButton>
+      </div>
     </BuildControlsDiv>
   );
 };

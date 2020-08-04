@@ -1,16 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const BuildControl = props => {
-  const BuildControlDiv = styled.div`
+const BuildControlDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 5px 0;
   `;
 
-  const BuildControlButton = styled.div`
+const BuildControlButton = styled.button`
     display: flex;
     justify-content: center;
     font: inherit;
@@ -35,13 +33,13 @@ const BuildControl = props => {
     }
   `;
 
-  const LabelDiv = styled.div`
+const LabelDiv = styled.div`
     padding: 10px;
     font-weight: bold;
     width: 80px;
   `;
 
-  const LessButton = styled(BuildControlButton)`
+const LessButton = styled(BuildControlButton)`
     background-color: #D39952;
     color: white;
     
@@ -51,7 +49,7 @@ const BuildControl = props => {
     }
   `;
 
-  const MoreButton = styled(BuildControlButton)`
+const MoreButton = styled(BuildControlButton)`
     background-color: #8F5E1E;
     color: white;
     
@@ -62,11 +60,12 @@ const BuildControl = props => {
     
   `;
 
+const BuildControl = props => {
   return (
     <BuildControlDiv>
       <LabelDiv>{props.label}</LabelDiv>
-      <LessButton>Less</LessButton>
-      <MoreButton>More</MoreButton>
+      <LessButton disabled={props.disabled} onClick={props.removed}>Less</LessButton>
+      <MoreButton onClick={props.added}>More</MoreButton>
     </BuildControlDiv>
   );
 };

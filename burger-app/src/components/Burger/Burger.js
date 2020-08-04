@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
-
-class Burger extends Component {
-  render() {
-    const BurgerDiv = styled.div`
+const BurgerDiv = styled.div`
     width: 100%;
     margin: auto;
     height: 250px;
@@ -15,8 +12,12 @@ class Burger extends Component {
     @media (min-width: 1000px) and (min-height: 700px) {
       width: 450px;
       height: 400px;
-    }`;
+}`;
 
+class Burger extends Component {
+
+
+  render() {
     let transformedIngredients = Object.keys(this.props.ingredients)
       .map(ingredientKey => {
         return [...Array(this.props.ingredients[ingredientKey])].map((_, index) => {

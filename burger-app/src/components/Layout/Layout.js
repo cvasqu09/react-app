@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Layout = (props) => {
-  const MainContent = styled.main`
+const MainContent = styled.main`
     margin-top: 16px;
   `;
+const Layout = (props) => {
+
 
   return (
     <React.Fragment>
