@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from "../UI/Button";
+
 
 const OrderSummary = (props) => {
   const ingredientsSummary = Object.keys(props.ingredients).map(key =>
@@ -14,6 +16,9 @@ const OrderSummary = (props) => {
       <ul>
         {ingredientsSummary}
       </ul>
+      <p><strong>Your total is: {props.totalPrice.toFixed(2)} </strong></p>
+      <Button btnType="Danger" clicked={props.cancelOrder}>CANCEL</Button>
+      <Button btnType="Success" clicked={props.continueOrder}>CONTINUE</Button>
     </React.Fragment>
   );
 };

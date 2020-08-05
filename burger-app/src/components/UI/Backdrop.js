@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const Backdrop = (props) => {
-  const BackdropContainer = styled.div`
+const BackdropContainer = styled.div`
     width: 100%;
     height: 100%;
     position: fixed;
@@ -12,6 +10,7 @@ const Backdrop = (props) => {
     background-color: rgba(0, 0, 0, 50%);
   `;
 
+const Backdrop = (props) => {
   return (
     props.showBackdrop ? <BackdropContainer onClick={props.click}> </BackdropContainer> : null
   );
