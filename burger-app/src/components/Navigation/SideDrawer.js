@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from "../Logo";
 import NavigationItems from "./NavigationItems";
+import Backdrop from "../UI/Backdrop";
 
 const StyledSideDrawer = styled.div`
   position: fixed;
@@ -20,29 +21,36 @@ const StyledSideDrawer = styled.div`
     display: none;
   }
   
-  .Open {
+  &.Open {
     transform: translateX(0);
   }
   
-  .Close {
+  &.Close {
     transform: translateX(-100%);
   }
 `;
 
 const LogoContainer = styled.div`
   height: 11%;
+  margin-bottom: 32px;
 `;
 
 const SideDrawer = (props) => {
+
+  const attachedClass = props.open ? 'Open' : 'Close';
+
   return (
-    <StyledSideDrawer>
-      <LogoContainer>
-        <Logo/>
-      </LogoContainer>
-      <nav>
-        <NavigationItems/>
-      </nav>
-    </StyledSideDrawer>
+    <React.Fragment>
+      <Backdrop showBackdrop={props.open} click={props.closed}/>
+      <StyledSideDrawer className={attachedClass}>
+        <LogoContainer>
+          <Logo/>
+        </LogoContainer>
+        <nav>
+          <NavigationItems/>
+        </nav>
+      </StyledSideDrawer>
+    </React.Fragment>
   );
 };
 

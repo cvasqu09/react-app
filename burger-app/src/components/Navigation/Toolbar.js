@@ -26,6 +26,12 @@ const LogoContainer = styled.div`
   height: 80%;
 `;
 
+const StyledNav = styled.nav`
+  @media (max-width: 499px) {
+    display: none;
+  }
+`;
+
 const Toolbar = (props) => {
   return (
     <ToolbarHeader>
@@ -33,7 +39,9 @@ const Toolbar = (props) => {
       <LogoContainer>
         <Logo>LOGO</Logo>
       </LogoContainer>
-      <NavigationItems/>
+      <StyledNav>
+        <NavigationItems/>
+      </StyledNav>
     </ToolbarHeader>
   );
 };
