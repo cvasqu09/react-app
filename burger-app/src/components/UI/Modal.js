@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import Backdrop from "./Backdrop";
 
@@ -21,20 +21,28 @@ const ModalContainer = styled.div`
   }
 `;
 
+class Modal extends Component {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return nextProps.showModal !== this.props.showModal;
+  }
 
+  componentWillUpdate(nextProps, nextState, nextContext) {
+    console.log('modal will update');
+  }
 
-const Modal = (props) => {
-  return (
-    <React.Fragment>
-      <Backdrop click={props.modalClosed} showBackdrop={props.showModal}/>
-      <ModalContainer style={ {
-        transform: props.showModal ? 'translateY(0)' : 'translateY(-100vh)',
-        opacity: props.showModal ? '1' : '0'
-      }}>
-        {props.children}
-      </ModalContainer>
-    </React.Fragment>
-  );
-};
+  render() {
+    return (
+      <React.Fragment>
+        <Backdrop click={this.props.modalClosed} showBackdrop={this.props.showModal}/>
+        <ModalContainer style={ {
+          transform: this.props.showModal ? 'translateY(0)' : 'translateY(-100vh)',
+          opacity: this.props.showModal ? '1' : '0'
+        }}>
+          {this.props.children}
+        </ModalContainer>
+      </React.Fragment>
+    );
+  }
+}
 
 export default Modal;

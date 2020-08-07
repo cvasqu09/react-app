@@ -32,10 +32,36 @@ const StyledNav = styled.nav`
   }
 `;
 
+const StyledMenu = styled.div`
+  width: 40px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  
+  @media (min-width: 500px) {
+    display: none;
+  }
+`;
+
+const StyledMenuItem = styled.div`
+  width: 90%;
+  height: 3px;
+  background-color: white;
+`;
+
 const Toolbar = (props) => {
   return (
     <ToolbarHeader>
-      <div>MENU</div>
+      <StyledMenu onClick={props.menuClick}>
+        <StyledMenuItem/>
+        <StyledMenuItem/>
+        <StyledMenuItem/>
+      </StyledMenu>
       <LogoContainer>
         <Logo>LOGO</Logo>
       </LogoContainer>
