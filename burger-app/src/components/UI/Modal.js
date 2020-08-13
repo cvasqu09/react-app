@@ -23,7 +23,7 @@ const ModalContainer = styled.div`
 
 class Modal extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return nextProps.showModal !== this.props.showModal;
+    return nextProps.showModal !== this.props.showModal || nextProps.children !== this.props.children;
   }
 
   componentWillUpdate(nextProps, nextState, nextContext) {
