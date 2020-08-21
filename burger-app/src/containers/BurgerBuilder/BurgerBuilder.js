@@ -30,6 +30,7 @@ class BurgerBuilder extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
     axios.get('https://burgerapp-d0f0c.firebaseio.com/ingredients.json')
       .then(response => {
         this.setState({ingredients: response.data});
@@ -95,31 +96,43 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    this.setState({loading: true});
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Chris V',
-        address: {
-          street: 'test',
-          zipCode: 78830,
-          country: 'Brazil'
-        },
-        email: 'test@test.com',
-        deliveryMethod: 'fastest'
-      }
-    };
+    // this.setState({loading: true});
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: 'Chris V',
+    //     address: {
+    //       street: 'test',
+    //       zipCode: 78830,
+    //       country: 'Brazil'
+    //     },
+    //     email: 'test@test.com',
+    //     deliveryMethod: 'fastest'
+    //   }
+    // };
+    //
+    // axios.post('order', order)
+    //   .then(res => {
+    //     console.log(res);
+    //     this.setState({loading: false, purchasing: false});
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     this.setState({loading: false, purchasing: false});
+    //   })
+    let ingredientsCountArr = [];
+    console.log('state ing', this.state.ingredients);
 
-    axios.post('order', order)
-      .then(res => {
-        console.log(res);
-        this.setState({loading: false, purchasing: false});
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({loading: false, purchasing: false});
-      })
+    for(const [ingredient, ingredientCount] of Object.entries(this.state.ingredients)) {
+      ingredientsCountArr.push(ingredient.toString() + '=' + ingredientCount);
+    }
+
+    console.log("the ingredients", ingredientsCountArr.join('&'));
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + ingredientsCountArr.join('&')
+    });
   };
 
   cancelPurchaseHandler = () => {

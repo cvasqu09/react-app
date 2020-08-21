@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
+import {withRouter} from "react-router-dom";
 const BurgerDiv = styled.div`
     width: 100%;
     margin: auto;
@@ -15,8 +16,6 @@ const BurgerDiv = styled.div`
 }`;
 
 class Burger extends Component {
-
-
   render() {
     let transformedIngredients = Object.keys(this.props.ingredients)
       .map(ingredientKey => {
@@ -43,4 +42,4 @@ class Burger extends Component {
 
 Burger.propTypes = {};
 
-export default Burger;
+export default withRouter(Burger);
