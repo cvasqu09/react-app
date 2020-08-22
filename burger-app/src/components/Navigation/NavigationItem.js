@@ -1,13 +1,8 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const NavigationItemContainer = styled.li`
-  margin: 10px 0;
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  
-  a {
+const StyledNavLink = styled(NavLink)`
     color: #8F5c2c;
     text-decoration: none;
     width: 100%;
@@ -17,16 +12,8 @@ const NavigationItemContainer = styled.li`
     &:hover, &:active, &.active {
       color: #40a4cb;
     }
-  }
-  
-  @media (min-width: 500px) {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    width: auto;
-    height: 100%;
-   
-    a {
+    
+    @media (min-width: 500px) {
       color: white;
       text-decoration: none;
       width: 100%;
@@ -39,13 +26,26 @@ const NavigationItemContainer = styled.li`
         color: white;
       }
     }
+`;
+
+const NavigationItemContainer = styled.li`
+  margin: 10px 0;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  
+  @media (min-width: 500px) {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 100%;
   }
 `;
 
 const NavigationItem = (props) => {
-  console.log('props active', props.active);
   return (
-    <NavigationItemContainer><a href={props.link} className={props.active ? 'active' : null}>{props.children}</a></NavigationItemContainer>
+    <NavigationItemContainer><StyledNavLink to={props.link} exact>{props.children}</StyledNavLink></NavigationItemContainer>
   );
 };
 

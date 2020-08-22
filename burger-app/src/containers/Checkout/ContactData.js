@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import Button from "../../components/UI/Button";
+import axios from '../../axios-orders';
+import Spinner from "../../components/UI/Spinner";
 
 class ContactData extends Component {
   state = {
@@ -10,10 +11,10 @@ class ContactData extends Component {
     address: {
       street: '',
       zipCode: ''
-    }
+    },
+    loading: false,
+
   };
-
-
 
   render() {
     const ContactDataDiv = styled.div`
@@ -35,16 +36,53 @@ class ContactData extends Component {
         align-items: center;
     `;
 
+    const orderHandler = (event) => {
+      this.setState({loading: true});
+      const order = {
+        ingredients: this.props.ingredients,
+        price: this.props.price,
+        customer: {
+          name: 'Chris V',
+          address: {
+            street: 'test',
+            zipCode: 78830,
+            country: 'Brazil'
+          },
+          email: 'test@test.com',
+          deliveryMethod: 'fastest'
+        }
+      };
+
+      axios.post('orders.json', order)
+        .then(res => {
+          console.log(res);
+          this.setState({loading: false});
+          this.props.history.push("/");
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({loading: false});
+        })
+    };
+
+    let form = (
+      <Form>
+        <Input type="text" name="name" placeholder="Your name"/>
+        <Input type="text" name="email" placeholder="Your email"/>
+        <Input type="text" name="street" placeholder="Your address"/>
+        <Input type="text" name="zipCode" placeholder="Your zipCode"/>
+        <Button btnType="Success" clicked={orderHandler}>ORDER</Button>
+      </Form>
+    );
+
+    if(this.state.loading) {
+      form = <Spinner/>
+    }
+
     return (
       <ContactDataDiv>
         <h4>Enter your contact data</h4>
-        <Form>
-          <Input type="text" name="name" placeholder="Your name"/>
-          <Input type="text" name="email" placeholder="Your email"/>
-          <Input type="text" name="street" placeholder="Your address"/>
-          <Input type="text" name="zipCode" placeholder="Your zipCode"/>
-          <Button btnType="Success">ORDER</Button>
-        </Form>
+        {form}
       </ContactDataDiv>
     );
   }

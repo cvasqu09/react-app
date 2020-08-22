@@ -7,7 +7,7 @@ const MainContent = styled.main`
   `;
 class Layout extends Component {
   state = {
-    showSideDrawer: true
+    showSideDrawer: false
   };
 
   sideDrawerClosedHandler = () => {

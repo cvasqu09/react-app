@@ -20,7 +20,7 @@ const NavigationItems = (props) => {
   return (
     <NavigationItemsContainer>
       <NavigationItem link="/" active>Burger Builder</NavigationItem>
-      <NavigationItem link="/">Checkout</NavigationItem>
+      <NavigationItem link="/orders">Orders</NavigationItem>
     </NavigationItemsContainer>
   );
 };
