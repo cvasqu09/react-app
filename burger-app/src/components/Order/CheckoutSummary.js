@@ -3,16 +3,17 @@ import styled from 'styled-components';
 import Burger from "../Burger/Burger";
 import Button from "../UI/Button";
 
+const CheckoutSummaryDiv = styled.div`
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    
+    @media(min-width: 600px) {
+      width: 500px;
+    }
+`;
+
 const CheckoutSummary = (props) => {
-  const CheckoutSummaryDiv = styled.div`
-      text-align: center;
-      width: 80%;
-      margin: auto;
-      
-      @media(min-width: 600px) {
-        width: 500px;
-      }
-  `;
 
   return (
     <CheckoutSummaryDiv>
