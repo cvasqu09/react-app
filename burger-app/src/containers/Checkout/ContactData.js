@@ -4,6 +4,7 @@ import Button from "../../components/UI/Button";
 import axios from '../../axios-orders';
 import Spinner from "../../components/UI/Spinner";
 import Input from "../../components/UI/Input";
+import {connect} from "react-redux";
 
 const ContactDataDiv = styled.div`
     margin: 20px auto;
@@ -29,7 +30,12 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Your name'
         },
-        value: 'Chris V'
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
       },
       street: {
         elementType: 'input',
@@ -37,7 +43,12 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Street'
         },
-        value: 'Chris V'
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
       },
       zipCode: {
         elementType: 'input',
@@ -45,15 +56,25 @@ class ContactData extends Component {
           type: 'text',
           placeholder: 'Your name'
         },
-        value: 'Your Zipcode'
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
       },
       country: {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Your Country'
+          placeholder: 'US'
         },
-        value: 'US'
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
       },
       email: {
         elementType: 'input',
@@ -61,7 +82,12 @@ class ContactData extends Component {
           type: 'email',
           placeholder: 'Your email'
         },
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false,
       },
       deliveryMethod: {
         elementType: 'select',
@@ -78,6 +104,16 @@ class ContactData extends Component {
     loading: false,
   };
 
+  checkValidity(value, rules) {
+    let isValid = false;
+
+    if (rules.required) {
+      isValid = value.trim() !== '';
+    }
+
+    return isValid;
+  }
+
   inputChangedHandler = (event, inputId) => {
     console.log(event.target.value);
     const updatedForm = { ...this.state.orderForm };
@@ -86,15 +122,25 @@ class ContactData extends Component {
     };
 
     updatedFormElement.value = event.target.value;
+    updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+    updatedFormElement.touched = true;
     updatedForm[inputId] = updatedFormElement;
+    console.log(this.state.orderForm);
     this.setState({orderForm: updatedForm});
   };
 
   orderHandler = (event) => {
+    event.preventDefault();
     this.setState({loading: true});
+    const formData = {};
+    for (let formElementId in this.state.orderForm) {
+      formData[formElementId] = this.state.orderForm[formElementId].value
+    }
+
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
+      orderData: formData
     };
 
     axios.post('orders.json', order)
@@ -120,7 +166,7 @@ class ContactData extends Component {
 
 
     let form = (
-      <Form>
+      <Form onSubmit={this.orderHandler}>
         {
           formInputs.map(formInput => (
             <Input
@@ -128,6 +174,9 @@ class ContactData extends Component {
               elementType={formInput.config.elementType}
               elementConfig={formInput.config.elementConfig}
               value={formInput.config.value}
+              invalid={!formInput.config.valid}
+              shouldValidate={formInput.config.validation}
+              touched={formInput.config.touched}
               changed={(event) => this.inputChangedHandler(event, formInput.id)}
             />
           ))
@@ -151,4 +200,11 @@ class ContactData extends Component {
 
 ContactData.propTypes = {};
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    price: state.totalPrice,
+    ingredients: state.ingredients
+  }
+};
+
+export default connect(mapStateToProps)(ContactData);
