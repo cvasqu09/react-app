@@ -8,7 +8,7 @@ import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import {connect} from "react-redux";
-import * as actionTypes from '../../store/actions';
+import {addIngredient, removeIngredient, clearIngredients} from "../../store/actions/index";
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -123,9 +123,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onIngredientAdded: (ingredient) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingredient}),
-    onIngredientRemoved: (ingredient) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingredient}),
-    onClearIngredients: () => dispatch({type: actionTypes.CLEAR_INGREDIENTS})
+    onIngredientAdded: (ingredient) => dispatch(addIngredient(ingredient)),
+    onIngredientRemoved: (ingredient) => dispatch(removeIngredient(ingredient)),
+    onClearIngredients: () => dispatch(clearIngredients())
   }
 };
 
