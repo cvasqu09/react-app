@@ -8,13 +8,9 @@ const INGREDIENT_PRICES = {
 };
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    meat: 0,
-    cheese: 0,
-    bacon: 0
-  },
+  ingredients: null,
   totalPrice: 4,
+  error: false,
 };
 
 const burgerBuilder = (state = initialState, action)  => {
@@ -50,6 +46,22 @@ const burgerBuilder = (state = initialState, action)  => {
         totalPrice: initialState.totalPrice
       }
     }
+
+    case actionTypes.SET_INGREDIENTS: {
+      return {
+        ...state,
+        ingredients: action.ingredients,
+        error: false,
+      }
+    }
+
+    case actionTypes.FETCH_INGREDIENTS_FAILED: {
+      return {
+        ...state,
+        error: true
+      }
+    }
+
 
     default:
       return state

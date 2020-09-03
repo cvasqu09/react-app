@@ -8,14 +8,7 @@ import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler";
 import {connect} from "react-redux";
-import {addIngredient, removeIngredient, clearIngredients} from "../../store/actions/index";
-
-const INGREDIENT_PRICES = {
-  salad: 0.5,
-  cheese: 0.4,
-  meat: 1.3,
-  bacon: 0.7
-};
+import {addIngredient, removeIngredient, clearIngredients, initIngredients} from "../../store/actions/index";
 
 const Price = styled.div`
   font-weight: bold;
@@ -24,17 +17,11 @@ const Price = styled.div`
 
 class BurgerBuilder extends Component {
   state = {
-    loading: false,
+    purchasing: false,
   };
 
   componentDidMount() {
-    axios.get('https://burgerapp-d0f0c.firebaseio.com/ingredients.json')
-      .then(response => {
-        this.setState({ingredients: response.data});
-      })
-      .catch(error => {
-        this.setState({error: error});
-      });
+    this.props.onInitIngredients();
   }
 
   purchaseHandler = () => {
@@ -72,7 +59,7 @@ class BurgerBuilder extends Component {
     }
 
 
-    let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
+    let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
     let orderSummary = null;
 
     if (this.props.ingredients) {
@@ -96,7 +83,7 @@ class BurgerBuilder extends Component {
                                    totalPrice={this.props.totalPrice}/>;
     }
 
-    if (this.state.loading) {
+    if (this.props.loading) {
       orderSummary = <Spinner/>
     }
 
@@ -117,7 +104,8 @@ BurgerBuilder.propTypes = {};
 const mapStateToProps = (state) => {
   return {
     ingredients: state.ingredients,
-    totalPrice: state.totalPrice
+    totalPrice: state.totalPrice,
+    error: state.error,
   }
 };
 
@@ -125,7 +113,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingredient) => dispatch(addIngredient(ingredient)),
     onIngredientRemoved: (ingredient) => dispatch(removeIngredient(ingredient)),
-    onClearIngredients: () => dispatch(clearIngredients())
+    onClearIngredients: () => dispatch(clearIngredients()),
+    onInitIngredients: () => dispatch(initIngredients())
   }
 };
 
