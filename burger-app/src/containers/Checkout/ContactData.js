@@ -5,6 +5,8 @@ import axios from '../../axios-orders';
 import Spinner from "../../components/UI/Spinner";
 import Input from "../../components/UI/Input";
 import {connect} from "react-redux";
+import withErrorHandler from "../../hoc/withErrorHandler";
+import {purchaseBurger} from "../../store/actions/order";
 
 const ContactDataDiv = styled.div`
     margin: 20px auto;
@@ -131,7 +133,7 @@ class ContactData extends Component {
 
   orderHandler = (event) => {
     event.preventDefault();
-    this.setState({loading: true});
+
     const formData = {};
     for (let formElementId in this.state.orderForm) {
       formData[formElementId] = this.state.orderForm[formElementId].value
@@ -142,6 +144,8 @@ class ContactData extends Component {
       price: this.props.price,
       orderData: formData
     };
+
+    this.props.onOrderBurger(order);
   };
 
   render() {
@@ -174,7 +178,7 @@ class ContactData extends Component {
       </Form>
     );
 
-    if(this.state.loading) {
+    if(this.props.loading) {
       form = <Spinner/>
     }
 
@@ -191,9 +195,14 @@ ContactData.propTypes = {};
 
 const mapStateToProps = state => {
   return {
-    price: state.totalPrice,
-    ingredients: state.ingredients
+    price: state.burgerBuilder.totalPrice,
+    ingredients: state.burgerBuilder.ingredients,
+    loading: state.order.loading
   }
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = (dispatch) => ({
+  onOrderBurger: (orderData) => dispatch(purchaseBurger(orderData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

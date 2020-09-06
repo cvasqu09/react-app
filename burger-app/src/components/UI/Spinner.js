@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Spinner = (props) => {
-  const StyledSpinner = styled.div`
+const StyledSpinner = styled.div`
     color: red;
     font-size: 90px;
     text-indent: -9999em;
@@ -84,6 +83,7 @@ const Spinner = (props) => {
     }
   `;
 
+const Spinner = (props) => {
   return (
     <StyledSpinner>
     </StyledSpinner>
