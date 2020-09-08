@@ -12,7 +12,7 @@ export const purchaseBurgerSuccess = (id, orderData) => {
 export const purchaseBurgerFailed = (error) => {
   return {
     type: actionTypes.PURCHASE_BURGER_FAILED,
-    error
+    error: error
   }
 };
 
@@ -39,4 +39,41 @@ export const purchaseInit = () => {
   return {
     type: actionTypes.PURCHASE_INIT
   }
+};
+
+export const fetchOrdersSuccess = (orders) => {
+  return {
+    type: actionTypes.FETCH_ORDERS_SUCCESS,
+    orders: orders
+  }
+};
+
+export const fetchOrdersFailure = (err) => {
+  return {
+    type: actionTypes.FETCH_ORDERS_FAIL,
+    error: err
+  }
+};
+
+export const fetchOrdersStart = () => {
+  return {
+    type: actionTypes.FETCH_ORDERS_START,
+  }
+};
+
+export const fetchOrders = () => {
+  return dispatch => axios.get('/orders.json')
+    .then((res) => {
+      const fetchedOrders = [];
+      for (let key in res.data) {
+        fetchedOrders.push({
+          ...res.data[key],
+          id: key
+        })
+      }
+      dispatch(fetchOrdersSuccess(fetchedOrders));
+    })
+    .catch((err) => {
+      dispatch(fetchOrdersFailure(err));
+    })
 };
