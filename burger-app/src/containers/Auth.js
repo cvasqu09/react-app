@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components'
 import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
+import * as actions from "../store/actions/index";
+import {connect} from "react-redux";
 
 const StyledDiv = styled.div`
   margin: 20px auto;
@@ -72,6 +73,11 @@ class AuthComponent extends Component {
     this.setState({controls: updatedControls});
   };
 
+  submitHandler = (event) => {
+    event.preventDefault();
+    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+  };
+
 
   render() {
     const formInputs = [];
@@ -98,7 +104,7 @@ class AuthComponent extends Component {
 
     return (
       <StyledDiv>
-        <form>
+        <form onSubmit={this.submitHandler}>
           {form}
           <Button btnType="Success">Submit</Button>
         </form>
@@ -109,4 +115,10 @@ class AuthComponent extends Component {
 
 AuthComponent.propTypes = {};
 
-export default AuthComponent;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, pass) => dispatch(actions.auth(email, pass))
+  }
+};
+
+export default connect(null, mapDispatchToProps)(AuthComponent);
