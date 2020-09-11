@@ -4,6 +4,7 @@ import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
 import * as actions from "../store/actions/index";
 import {connect} from "react-redux";
+import Spinner from "../components/UI/Spinner";
 
 const StyledDiv = styled.div`
   margin: 20px auto;
@@ -46,7 +47,8 @@ class AuthComponent extends Component {
         valid: false,
         touched: false,
       }
-    }
+    },
+    isSignUp: true
   };
 
   checkValidity(value, rules) {
@@ -75,9 +77,16 @@ class AuthComponent extends Component {
 
   submitHandler = (event) => {
     event.preventDefault();
-    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp);
   };
 
+  switchAuthModeHandler = () => {
+    this.setState(prevState => {
+      return {
+        isSignUp: !prevState.isSignUp
+      }
+    });
+  };
 
   render() {
     const formInputs = [];
@@ -88,7 +97,7 @@ class AuthComponent extends Component {
       })
     }
 
-    const form = formInputs.map(formInput => {
+    let form = formInputs.map(formInput => {
       return (
         <Input
           key={formInput.id}
@@ -102,12 +111,23 @@ class AuthComponent extends Component {
       />)
     });
 
+    if(this.props.authIsLoading) {
+      form = <Spinner/>
+    }
+
+    let errorMsg = null;
+    if (this.props.authError) {
+      errorMsg = <p>{this.props.authError.message}</p>
+    }
+
     return (
       <StyledDiv>
+        {errorMsg ? errorMsg : null}
         <form onSubmit={this.submitHandler}>
           {form}
           <Button btnType="Success">Submit</Button>
         </form>
+        <Button btnType="Danger" clicked={this.switchAuthModeHandler}>Switch to {this.state.isSignUp ? 'Sign In' : 'Sign Up'}</Button>
       </StyledDiv>
     );
   }
@@ -115,10 +135,17 @@ class AuthComponent extends Component {
 
 AuthComponent.propTypes = {};
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onAuth: (email, pass) => dispatch(actions.auth(email, pass))
+    authIsLoading: state.auth.loading,
+    authError: state.auth.error
   }
 };
 
-export default connect(null, mapDispatchToProps)(AuthComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, pass, isSignUp) => dispatch(actions.auth(email, pass, isSignUp))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthComponent);
