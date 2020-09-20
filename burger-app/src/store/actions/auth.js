@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
-import {Process as process} from "node/process";
 
 export const authStart = () => {
   return {

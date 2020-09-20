@@ -16,7 +16,7 @@ const Price = styled.div`
 `;
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     purchasing: false,
   };
